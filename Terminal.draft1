@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hawthorn Research Terminal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #000;
+            color: #00ff55;
+            font-family: "Courier New", monospace;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        /* CRT scanlines */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.025) 0px,
+                rgba(255, 255, 255, 0.025) 1px,
+                transparent 1px,
+                transparent 4px
+            );
+        }
+
+        #terminal {
+            padding: 28px;
+            min-height: 100vh;
+            text-shadow: 0 0 5px #00ff55;
+        }
+
+        .line {
+            margin-bottom: 7px;
+        }
+
+        .header {
+            margin-bottom: 24px;
+        }
+
+        .warning {
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        #inputLine {
+            display: flex;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        #prompt {
+            margin-right: 8px;
+        }
+
+        #entryInput {
+            width: 70%;
+            background: transparent;
+            border: none;
+            outline: none;
+
+            color: #00ff55;
+            font-family: "Courier New", monospace;
+            font-size: 18px;
+
+            text-shadow: 0 0 5px #00ff55;
+        }
+
+        #results {
+            margin-top: 25px;
+        }
+
+        .archiveText {
+            white-space: pre-wrap;
+            margin-top: 8px;
+        }
+
+        .divider {
+            margin-top: 18px;
+            margin-bottom: 18px;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div id="terminal">
+
+        <div class="header">
+            <div class="line">
+                HAWTHORN RESEARCH TERMINAL v1.4
+            </div>
+        </div>
+
+        <div class="line">
+            Loading archive memory.....OK
+        </div>
+
+        <div class="line">
+            Checking records..........OK
+        </div>
+
+        <div class="line">
+            Establishing connection...OK
+        </div>
+
+        <div class="warning">
+            ARCHIVE DATABASE<br>
+            ENTRY TITLE REQUIRED
+        </div>
+
+        <div id="inputLine">
+            <span id="prompt">&gt; ENTER ENTRY TITLE:</span>
+
+            <input
+                id="entryInput"
+                type="text"
+                autocomplete="off"
+                autofocus
+            >
+        </div>
+
+        <div id="results"></div>
+
+    </div>
+
+
+    <script>
+
+        const archive = [
+
+            {
+                title: "Bateye",
+
+                information:
+`Eye ball
+
+Located here and here and blah blah.
+
+Additional information will go here.
+
+Status: ACTIVE
+Classification: RESTRICTED`
+            },
+
+            {
+                title: "Example",
+
+                information:
+`This is another archive entry.
+
+Replace this with your actual information.`
+            }
+
+        ];
+
+
+        const input = document.getElementById("entryInput");
+        const results = document.getElementById("results");
+
+
+        input.addEventListener("keydown", function (event) {
+
+            if (event.key !== "Enter") {
+                return;
+            }
+
+
+            const search = input.value.trim();
+
+
+            if (search === "") {
+                return;
+            }
+
+
+            results.innerHTML = "";
+
+
+            /* SEARCH MESSAGE */
+
+            const searchLine = document.createElement("div");
+
+            searchLine.className = "line";
+
+            searchLine.textContent =
+                "> SEARCHING ARCHIVE FOR: " + search;
+
+            results.appendChild(searchLine);
+
+
+            let found = false;
+
+
+            /* SEARCH ARCHIVE */
+
+            for (let i = 0; i < archive.length; i++) {
+
+                if (
+                    archive[i].title.toLowerCase() ===
+                    search.toLowerCase()
+                ) {
+
+                    found = true;
+
+
+                    /* MATCH MESSAGE */
+
+                    const matchLine =
+                        document.createElement("div");
+
+                    matchLine.className = "line";
+
+                    matchLine.textContent =
+                        "Match located.";
+
+                    results.appendChild(matchLine);
+
+
+                    /* DIVIDER */
+
+                    const divider =
+                        document.createElement("div");
+
+                    divider.className = "divider";
+
+                    divider.textContent = "------";
+
+                    results.appendChild(divider);
+
+
+                    /* ENTRY TITLE */
+
+                    const entryTitle =
+                        document.createElement("div");
+
+                    entryTitle.textContent =
+                        "ENTRY: " +
+                        archive[i].title.toUpperCase();
+
+                    results.appendChild(entryTitle);
+
+
+                    /* ENTRY INFORMATION */
+
+                    const entryText =
+                        document.createElement("div");
+
+                    entryText.className = "archiveText";
+
+                    entryText.textContent =
+                        archive[i].information.trim();
+
+                    results.appendChild(entryText);
+
+
+                    /* DIVIDER */
+
+                    const dividerEnd =
+                        document.createElement("div");
+
+                    dividerEnd.className = "divider";
+
+                    dividerEnd.textContent = "------";
+
+                    results.appendChild(dividerEnd);
+
+
+                    break;
+                }
+            }
+
+
+            /* NO MATCH */
+
+            if (!found) {
+
+                const errorLine =
+                    document.createElement("div");
+
+                errorLine.className = "line";
+
+                errorLine.textContent =
+                    "No matching record located.";
+
+                results.appendChild(errorLine);
+
+
+                const terminatedLine =
+                    document.createElement("div");
+
+                terminatedLine.className = "line";
+
+                terminatedLine.textContent =
+                    "ARCHIVE SEARCH TERMINATED.";
+
+                results.appendChild(terminatedLine);
+            }
+
+
+            input.value = "";
+
+        });
+
+    </script>
+
+</body>
+
+</html>
