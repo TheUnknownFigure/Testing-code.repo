@@ -60,7 +60,7 @@ for cycle in range(K):
         print(f"Distance from origin: {distance:.2f}")
 
     # Plot all particles in this cycle together
-    plt.scatter(0, 0, color="green", label="Start")
+    plt.scatter(x_path, y_path, color="green", label="Start")
     plt.xlabel("X position")
     plt.ylabel("Y position")
     plt.title(f"Random Walk — Cycle {cycle + 1} ({r} particles)")
