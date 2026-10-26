@@ -2,6 +2,8 @@ import random
 import math
 import matplotlib.pyplot as plt
 
+plt.rcParams['figure.dpi'] = 1024
+
 n = int(input("Enter number of steps (n > 0): "))
 K = int(input("No of cycles: "))
 r = int(input("No of particles per graph: "))
@@ -35,8 +37,8 @@ for cycle in range(K):
             elif direction == "hexagon":
                 a = random.randrange(6)*math.pi / 3
             elif direction == "chaotic":
-                x += random.choice([-2,2])
-                y += random.choice([-2,2])
+                x += random.choice([-5,5])
+                y += random.choice([-5,5])
            
             x_path.append(x)
             y_path.append(y)
