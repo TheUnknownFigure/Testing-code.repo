@@ -1,4 +1,5 @@
 import random
+import math
 import matplotlib.pyplot as plt
 
 n = int(input("Enter number of steps (n > 0): "))
@@ -10,7 +11,9 @@ for cycle in range(K):
     for particle in range(r):
 
         # Initial position
-        x, y = 0, 0
+        x = random.randint(-10, 10)
+        y = random.randint(-10, 10)
+        
         x_path = [x]
         y_path = [y]
 
