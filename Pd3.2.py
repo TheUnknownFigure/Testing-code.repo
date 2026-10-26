@@ -17,29 +17,32 @@ for cycle in range(K):
         x_path = [x]
         y_path = [y]
 
-        # Random walk
         for i in range(n):
             direction = random.choice(
                 ["up", "down", "left", "right", "diagonal", "hexagon", "chaotic"]
             )
+            
+            mult = random.choice([1, 2])
 
             if direction == "up":
-                y += 1
+                y += 1 * mult
             elif direction == "down":
-                y -= 1
+                y -= 1 * mult
             elif direction == "right":
-                x += 1
+                x += 1 * mult
             elif direction == "left":
-                x -= 1
+                x -= 1 * mult
             elif direction == "diagonal":
-                x += random.choice([-1,1]) / math.sqrt(2)
-                y += random.choice([-1,1]) / math.sqrt(2)
+                x += (random.choice([-1,1]) / math.sqrt(2)) * mult
+                y += (random.choice([-1,1]) / math.sqrt(2)) * mult
             elif direction == "hexagon":
                 a = random.randrange(6)*math.pi / 3
+                x += math.cos(a) * mult
+                y += math.sin(a) * mult
             elif direction == "chaotic":
-                x += random.choice([-5,5])
-                y += random.choice([-5,5])
-           
+                x += random.choice([-1.25,1.25]) * mult
+                y t+= random.choice([-1.25,1.25]) * mult
+
             x_path.append(x)
             y_path.append(y)
 
@@ -52,7 +55,6 @@ for cycle in range(K):
         print(f"Final position: ({x:.2f}, {y:.2f})")
         print(f"Distance from origin: {distance:.2f}")
 
-    # Plot all particles in this cycle together
     plt.scatter(0, 0, color="green", label="Start")
     plt.xlabel("X position")
     plt.ylabel("Y position")
