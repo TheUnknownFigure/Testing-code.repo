@@ -1,4 +1,5 @@
 import random
+import math
 import matplotlib.pyplot as plt
 
 n = int(input("Enter number of steps (n > 0): "))
