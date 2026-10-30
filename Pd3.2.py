@@ -41,7 +41,7 @@ for cycle in range(K):
                 y += math.sin(a) * mult
             elif direction == "chaotic":
                 x += random.choice([-1.25,1.25]) * mult
-                y t+= random.choice([-1.25,1.25]) * mult
+                y += random.choice([-1.25,1.25]) * mult
 
             x_path.append(x)
             y_path.append(y)
