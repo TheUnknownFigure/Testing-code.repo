@@ -26,7 +26,7 @@ for cycle in range(K):
             if direction == "k1":
                 y += 2
                 x -= 1
-            elif direction == "k2:
+            elif direction == "k2":
                 y += 2
                 x += 1
             elif direction == "k3":
