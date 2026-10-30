@@ -3,6 +3,7 @@ import math
 import matplotlib.pyplot as plt
 
 plt.rcParams['figure.dpi'] = 1024
+# change it to 4096 for more steps to get better resolution 
 
 n = int(input("Enter number of steps (n > 0): "))
 K = int(input("No of cycles: "))
